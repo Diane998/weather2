@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <title>Weather</title>
+  </head>
+  <body>
+    <div class="container">
+      <form>
+        <div class="group">
+          <input type="text" autocomplete="off" class="search" required />
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label>Search city</label>
+        </div>
+      </form>
+      <div class="left">
+        <div class="forrecast-info"></div>
+        <div class="weather-description"></div>
+      </div>
+      <div class="right"></div>
+    </div>
+
+    <script id="forecast-template" type="text/x-handlebars-template">
+      {{#each list}}
+        {{#if @first}}
+          <div
+            class='row-1'
+            {{#if Rain}}
+            style='background: url(https://images.pexels.com/photos/940034/pexels-photo-940034.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) center no-repeat'
+            ;
+            {{/if}}
+            {{#if Clouds}}
+            style='background: url(https://images.pexels.com/photos/1227513/pexels-photo-1227513.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) center no-repeat'
+            ;
+            {{/if}}
+            {{#if Drizzle}}
+            style='background: url(https://images.pexels.com/photos/940034/pexels-photo-940034.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) center no-repeat'
+            ;
+            {{/if}}
+            {{#if Snow}}
+            style='background: url(https://images.pexels.com/photos/688660/pexels-photo-688660.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) center no-repeat'
+            ;
+            {{/if}}
+            {{#if Clear}}
+            style='background: url(https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) center no-repeat'
+            ;
+            {{/if}}
+          >
+            <div class='humidity'>
+              Humidity: {{main.humidity}}%
+            </div>
+            <div class='atmosperic-pressure'>
+              {{main.pressure}}hPa
+            </div>
+            <div class='wind-line'>
+              {{wind.speed}}m/s {{getWindDirection wind.deg}}
+            </div>
+          </div>
+          <div class='row-2'>
+            <div class='col-1'></div>
+            <div class='col-2'>
+              <div class='temp'>
+                {{main.temp}}°C
+              </div>
+              <div class='location'>
+                {{location.name}}, {{location.country}}
+              </div>
+              <div class='date'>
+                {{getDate dt_txt}} {{dt_txt}}
+              </div>
+            </div>
+          </div>
+          <div class='row-3'
+          {{#if Rain}}
+            style='background: url(https://images.pexels.com/photos/1154510/pexels-photo-1154510.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) center no-repeat'
+            ;
+            {{/if}}
+            {{#if Clouds}}
+            style='background: url(https://images.pexels.com/photos/449751/pexels-photo-449751.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) center no-repeat'
+            ;
+            {{/if}}
+            {{#if Drizzle}}
+            style='background: url(https://images.pexels.com/photos/1154510/pexels-photo-1154510.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) center no-repeat'
+            ;
+            {{/if}}
+            {{#if Snow}}
+            style='background: url(https://images.pexels.com/photos/730256/pexels-photo-730256.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) center no-repeat'
+            ;
+            {{/if}}
+            {{#if Clear}}
+            style='background: url(https://images.pexels.com/photos/556855/pexels-photo-556855.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) center no-repeat'
+            ;
+            {{/if}}>
+            <div class='min-max-temp'>
+              <p>
+                Min Temp: {{main.temp_min}}°C
+              </p>
+              <p>
+                Max Temp: {{main.temp_max}}°C
+              </p>
+            </div>
+            <div class='feels-like'>
+              Feels like {{main.feels_like}}°C
+            </div>
+            <div class='description'>
+              {{capitalize weather.0.description}}
+            </div>
+          </div>
+        {{/if}}
+      {{/each}}
+    </script>
+
+    <script id="weather-template" type="text/x-handlebars-template">
+      {{#each list}}
+        {{#if @first}}
+
+        {{else}}
+          <div class='forecast'>
+            <div class='col-left'>
+              <div class='temp'>
+                {{main.temp}}°C
+              </div>
+              <div class='day'>
+                {{getDate dt_txt}}
+              </div>
+            </div>
+            <div class='col-right'>
+              <div class='min-max-temp'>
+                <p>
+                  Min Temp: {{main.temp_min}}°C
+                </p>
+                <p>
+                  Max Temp: {{main.temp_max}}°C
+                </p>
+              </div>
+              <div class='feels-like'>
+                Feels like {{main.feels_like}}°C
+              </div>
+              <div class='description'>
+                {{capitalize weather.0.description}}
+              </div>
+            </div>
+            <div class='col-middle'>
+              <div class='humidity'>
+                Humidity: {{main.humidity}}%
+              </div>
+              <div class='atmosperic-pressure'>
+                {{main.pressure}}hPa
+              </div>
+              <div class='wind-line'>
+                {{wind.speed}}m/s {{getWindDirection wind.deg}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+      {{/each}}
+    </script>
+
+    <script src="js/handlebars-v4.7.6.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
